@@ -61,36 +61,43 @@ class caddy::config inherits caddy {
     require => User[$caddy::caddy_user],
   }
 
-  case $::operatingsystemmajrelease {
-    '7': {
-      file {'/etc/systemd/system/caddy.service':
-        ensure  => file,
-        mode    => '0744',
-        owner   => 'root',
-        group   => 'root',
-        content => template('caddy/etc/systemd/system/caddy.service.erb'),
-        notify  => Exec['systemctl-daemon-reload'],
-        require => Class['caddy::package'],
-      }
-
-      exec {'systemctl-daemon-reload':
-        refreshonly => true,
-        path        => '/usr/bin:/usr/sbin:/bin:/usr/local/bin',
-        command     => 'systemctl daemon-reload',
+  case $facts[os][name] {
+    'RedHat|CentOS': {
+      case $facts[os][release] {
+        '7': {
+          systemd::unit_file { 'caddy.service':
+            content => template('caddy/etc/systemd/system/caddy.service.erb'),
+            enable  => true,
+            active  => true,
+            require => Class['caddy::package'],
+          }
+        }
+        '6': {
+          file {'/etc/init.d/caddy':
+            ensure  => file,
+            mode    => '0744',
+            owner   => 'root',
+            group   => 'root',
+            content => template('caddy/etc/init.d/caddy.erb'),
+            require => Class['caddy::package'],
+          }
+        }
       }
     }
-    '6': {
-      file {'/etc/init.d/caddy':
-        ensure  => file,
-        mode    => '0744',
-        owner   => 'root',
-        group   => 'root',
-        content => template('caddy/etc/init.d/caddy.erb'),
-        require => Class['caddy::package'],
+    'Amazon': {
+      case $facts[os][release] {
+        '2': {
+          systemd::unit_file { 'caddy.service':
+            content => template('caddy/etc/systemd/system/caddy.service.erb'),
+            enable  => true,
+            active  => true,
+            require => Class['caddy::package'],
+          }
+        }
       }
     }
     default:  {
-      fail("${::osfamily} is not supported.")
+      fail("${facts[os][name]} ${facts[os][release]} is not supported.")
     }
   }
 }

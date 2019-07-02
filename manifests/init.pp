@@ -49,5 +49,4 @@ class caddy (
 
   include caddy::package
   include caddy::config
-  include caddy::service
 }
