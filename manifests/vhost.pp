@@ -28,7 +28,7 @@ define caddy::vhost(
     mode    => $mode,
     owner   => $owner,
     group   => $group,
-    require => Class['caddy::package'],
+    require => Class['caddy::config'],
     notify  => Class['caddy::service'],
   }
 }
