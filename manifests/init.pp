@@ -49,4 +49,9 @@ class caddy (
 
   include caddy::package
   include caddy::config
+  include caddy::service
+
+  Class['caddy::package']
+  -> Class['caddy::config']
+  -> Class['caddy::service']
 }

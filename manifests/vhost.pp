@@ -23,7 +23,7 @@ define caddy::vhost(
     content => $content,
     source  => $source,
     mode    => '0444',
-    require => Class['caddy::config'],
+    require => Class['caddy::service'],
     notify  => Class['caddy::service'],
   }
 }

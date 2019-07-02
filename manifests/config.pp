@@ -69,7 +69,6 @@ class caddy::config inherits caddy {
             content => template('caddy/etc/systemd/system/caddy.service.erb'),
             enable  => true,
             active  => true,
-            require => Class['caddy::package'],
           }
         }
         '6': {
@@ -79,7 +78,6 @@ class caddy::config inherits caddy {
             owner   => 'root',
             group   => 'root',
             content => template('caddy/etc/init.d/caddy.erb'),
-            require => Class['caddy::package'],
           }
         }
       }
@@ -91,7 +89,6 @@ class caddy::config inherits caddy {
             content => template('caddy/etc/systemd/system/caddy.service.erb'),
             enable  => true,
             active  => true,
-            require => Class['caddy::package'],
           }
         }
       }
