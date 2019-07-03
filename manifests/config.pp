@@ -62,8 +62,8 @@ class caddy::config inherits caddy {
   }
 
   case $facts[os][name] {
-    'RedHat|CentOS': {
-      case $facts[os][release] {
+    'RedHat', 'CentOS': {
+      case $facts[os][release][major] {
         '7': {
           systemd::unit_file { 'caddy.service':
             content => template('caddy/etc/systemd/system/caddy.service.erb'),
@@ -83,7 +83,7 @@ class caddy::config inherits caddy {
       }
     }
     'Amazon': {
-      case $facts[os][release] {
+      case $facts[os][release][major] {
         '2': {
           systemd::unit_file { 'caddy.service':
             content => template('caddy/etc/systemd/system/caddy.service.erb'),
