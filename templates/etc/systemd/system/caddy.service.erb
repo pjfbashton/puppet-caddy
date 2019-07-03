@@ -12,7 +12,7 @@ Group=<%= @caddy_group %>
 Environment=HOME=<%= @caddy_home %>
 Environment=CADDYPATH=<%= @caddy_ssl_dir %>
 
-ExecStart=<%= @install_path %>/caddy -log <%= @caddy_log_dir %>/caddy.log -agree=true -conf=/etc/caddy/Caddyfile -root=/var/tmp -http-port=<%= @caddy_http_port %> -https-port=<%= @caddy_https_port %>
+ExecStart=<%= @install_path %>/caddy -log <%= @caddy_log_dir %>/caddy.log -agree=true -conf=/etc/caddy/Caddyfile -root=/var/tmp -http-port=<%= @caddy_http_port %> -https-port=<%= @caddy_https_port %> <%= @caddy_extra_options %>
 ExecReload=/bin/kill -USR1 $MAINPID
 
 LimitNOFILE=1048576

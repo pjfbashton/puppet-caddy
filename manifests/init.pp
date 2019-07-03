@@ -44,6 +44,7 @@ class caddy (
   Stdlib::Port                   $caddy_https_port      = $caddy::params::caddy_https_port,
   Boolean                        $caddy_private_devices = $caddy::params::caddy_private_devices,
   Integer                        $caddy_limit_processes = $caddy::params::caddy_limit_processes,
+  Optional[String]               $caddy_extra_options   = $caddy::params::caddy_extra_options,
 
   )inherits caddy::params{
 
